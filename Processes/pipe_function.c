@@ -6,8 +6,8 @@
 
 /*
  * Pipe: It is an in memory file, which is used to perform
- * unidirectional communication between two active processes
- * . It's buffer is present only in memory and destroyed when
+ * unidirectional communication between two active processes.
+ * It's buffer is present only in memory and destroyed when
  * either process wants to terminate communication.
  *
  * It is different from the pipes which we usually use in the
