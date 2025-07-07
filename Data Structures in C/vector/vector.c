@@ -22,13 +22,13 @@ Vector *new_vector(void)
 {
 	Vector *temp = (Vector *) malloc(sizeof(Vector));
 	if (!temp)
-		ERR_NULL_MALLOC(1, __func__);
+		err_null_malloc(__func__, 1);
 
 	temp->size = 0;
 	temp->capacity = INITIAL_VEC_CAP;
 	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
 	if (!(temp->arr))
-		ERR_NULL_MALLOC(INITIAL_VEC_CAP, __func__);
+		err_null_malloc(__func__, INITIAL_VEC_CAP);
 
 	return temp;
 }
@@ -42,13 +42,13 @@ Vector *new_vector_cap(size_t n)
 {
 	Vector *temp = (Vector *) malloc(sizeof(Vector));
 	if (!temp)
-		ERR_NULL_MALLOC(1, __func__);
+		err_null_malloc(__func__, 1);
 
 	temp->size = 0;
 	temp->capacity = (!n) ? INITIAL_VEC_CAP : n;
 	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
 	if (!(temp->arr))
-		ERR_NULL_MALLOC(n, __func__);
+		err_null_malloc(__func__, n);
 
 	return temp;
 }
@@ -65,13 +65,13 @@ Vector *new_vector_fill(size_t n, Item i)
 
 	Vector *temp = (Vector *) malloc(sizeof(Vector));
 	if (!temp)
-		ERR_NULL_MALLOC(1, __func__);
+		err_null_malloc(__func__, 1);
 
 	temp->size = n;
 	temp->capacity = n;
 	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
 	if (!(temp->arr))
-		ERR_NULL_MALLOC(n, __func__);
+		err_null_malloc(__func__, n);
 	
 	for (int j = 0; j < n; j++)
 		temp->arr[j] = i;
@@ -187,7 +187,7 @@ void vmem_reallocation(Vector *v)
 	size_t new_cap = vnew_cap(v->capacity);
 	Item *temp = (Item *) malloc(new_cap * sizeof(Item));
 	if (!temp)
-		ERR_NULL_MALLOC(new_cap, __func__);
+		err_null_malloc(__func__, new_cap);
 
 	for (int i = 0; i < v->size; i++)
 		temp[i] = v->arr[i];

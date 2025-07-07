@@ -7,14 +7,13 @@
 
 #include "utils.h"
 
-#ifdef __STDC_HOSTED__
-#define IS_PRINTABLE
+#if IS_PRINTABLE
 #include <stdio.h>
 #endif
 
 void print_vector(Vector *v)
 {
-#ifdef IS_PRINTABLE
+#if IS_PRINTABLE
 	putchar('<');
 	if (empty(v)) {
 		puts(" >");
