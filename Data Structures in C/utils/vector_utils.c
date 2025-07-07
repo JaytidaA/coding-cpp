@@ -1,11 +1,12 @@
 /*
- * utils.c
- * Defines utility functions and MACROS for the Data Structures defined in the
+ * vector_utils.c
+ * Defines utility functions and MACROS for Vectors defined in the
  * repository https://github.com/JaytidaA/coding-cpp
  * Author: https://github.com/JaytidaA/
  */
 
-#include "utils.h"
+#include "vector/vector.h"
+#include "vector/vector_utils.h"
 
 #if IS_PRINTABLE
 #include <stdio.h>

@@ -14,8 +14,4 @@
 #define IS_PRINTABLE 0
 #endif
 
-#include "vector/vector.h"
-
-void print_vector(Vector *v);
-
 #endif

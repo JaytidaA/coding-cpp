@@ -7,8 +7,10 @@ Defined as the `Vector` struct, Vectors provide a dynamically resizeable array s
 Following are the structs, typedefs, functions and macros defined in vector.h
 ```c
 /* macros */
-#define INITIAL_VEC_CAP 1                    // initial size of new vector
-#define LINEAR_ALLOC                         // defines allocation function
+#define INITIAL_VEC_CAP 1
+// initial size of new vector
+#define LINEAR_ALLOC
+// defines allocation function
 
 /* typedefs */
 typedef int Item;
@@ -50,7 +52,7 @@ Conditional programming exists and is controlled via the following macros:
 
 
 ## Utilities
-Currently only one utility is provided by Vector and it is the printing one. Incluede `utils/utils.h` to get access to the `print_vector` function
+Currently only one utility is provided by Vector and it is the printing one. Include `include/vector/vector_utils.h` to get access to the `print_vector` function
 ```c
 void print_vector(Vector *v);
 ```
@@ -63,19 +65,21 @@ Currently only one error function is used by Vector, it is `err_null_malloc`, wh
 You can build the examples as follows (ensure that you have `make` installed on your system)
 ```sh
 $ cd Examples/vectors
-$ make <example>
+$ make build/<example>
 $ ./build/<example>
 ```
 Examples:
 1. `general`: Presents the general functionality of vectors.
 2. `maximum_sum`: Solves the maximum sum subarray problem.
 
+Run `make clean` or `make clean_all` to clean up binary files and/or executables after Makefile usage.
+
 ## Usage
 To make use of the `vector` data structure on your own follow the following steps:
 1. Add the following line(s) to your source files.
 ```c
 #include "vector/vector.h"
-#include "utils/util.h"
+#include "vector/vector_utils.h"
 ```
 
 2. Compile the `vector.c` and `utils.c` source files to their object files (I am using `gcc` in this example, use whatever compiler you would like,I am using gcc in this example, use whatever compiler you would like)
@@ -83,7 +87,7 @@ To make use of the `vector` data structure on your own follow the following step
 $ cd $HOME/"Data Structures in C"
 $ mkdir -p bin
 $ gcc -o bin/vector.o -c vector/vector.c -I include
-$ gcc -o bin/utils.o -c utils/utils.c -I include
+$ gcc -o bin/utils.o -c utils/vector_utils.c -I include
 ```
 
 3. Compile your program with by navigating to your project's directory and add the appropriate directory.
@@ -98,4 +102,3 @@ $ gcc -o program bin/myproject.o $HOME/Data\ Structures\ in\ C/bin/*.o
 ```sh
 ./program
 ```
-

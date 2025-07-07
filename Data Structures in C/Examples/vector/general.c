@@ -1,5 +1,11 @@
+/*
+ * general.c
+ * Example to show off the various properties of Vector.
+ * Author: https://github.com/JaytidaA/
+ */
+
 #include "vector/vector.h"
-#include "utils/utils.h"
+#include "vector/vector_utils.h"
 #include <stdio.h>
 
 int main(void)

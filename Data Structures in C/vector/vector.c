@@ -6,8 +6,8 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "utils/err_handle.h"
-#include "vector.h"
+#include "err_handle.h"
+#include "vector/vector.h"
 
 /* internal helpers */
 void vmem_reallocation(Vector *v);
