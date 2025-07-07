@@ -13,7 +13,11 @@
 void vmem_reallocation(Vector *v);
 size_t vnew_cap(size_t cap);
 
-/* create and destroy */
+/******************************************************************************
+ * new_vector: Creates and initialses a new empty vector with space for       *
+ *             INITIAL_VEC_CAP element(s). Exits the program on failure to    *
+ *             allocate enough memory.                                        *
+ ******************************************************************************/
 Vector *new_vector(void)
 {
 	Vector *temp = (Vector *) malloc(sizeof(Vector));
@@ -29,6 +33,11 @@ Vector *new_vector(void)
 	return temp;
 }
 
+/******************************************************************************
+ * new_vector_cap: Creates and initialises a new empty vector with space for  *
+ *                 'n' elements. Exits the program on failure to allocate     *
+ *                 enough memory.                                             *
+ ******************************************************************************/
 Vector *new_vector_cap(size_t n)
 {
 	Vector *temp = (Vector *) malloc(sizeof(Vector));
@@ -44,6 +53,11 @@ Vector *new_vector_cap(size_t n)
 	return temp;
 }
 
+/******************************************************************************
+ * new_vector_fill: Creates and initialises a vector with space for 'n'       *
+ *                  elements and initialises them with value 'i'. Exits the   *
+ *                  program on failure to allocate enough memory.             *
+ ******************************************************************************/
 Vector *new_vector_fill(size_t n, Item i)
 {
 	if (!n)

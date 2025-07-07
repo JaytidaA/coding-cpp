@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 void print_arr(int n, int a[]) {
 	putchar('[');
@@ -64,6 +64,8 @@ int main(void)
 	printf("int a[] = "); print_arr(n, a);
 	printf("int b[] = "); print_arr(m, b);
 	printf("Combined: "); print_arr(result.length, result.array);
+
+	free(result.array);
 
 	return 0;
 }
