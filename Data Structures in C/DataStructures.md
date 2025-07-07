@@ -60,17 +60,42 @@ Since it requires the use of a hosted implementation of C, if one is not present
 Currently only one error function is used by Vector, it is `err_null_malloc`, which prints to the standard error stream (in case of hosted implementation) if the ouput of the malloc function is NULL and exits the program.
 
 ## Examples
-Contains examples
+You can build the examples as follows (ensure that you have `make` installed on your system)
+```sh
+$ cd Examples/vectors
+$ make <example>
+$ ./build/<example>
+```
+Examples:
+1. `general`: Presents the general functionality of vectors.
+2. `maximum_sum`: Solves the maximum sum subarray problem.
 
 ## Usage
-gcc
-
-# err\_handle.h
-A single header file defined for handling errors. All functions must be declared and defined in this file alone.
-
-List of structs, typedefs, functions and macros
+To make use of the `vector` data structure on your own follow the following steps:
+1. Add the following line(s) to your source files.
 ```c
-void err_null_malloc(const char *func, size_t size);
-// prints to the standard error stream if __STDC_HOSTED__ is defined and exits.
-// Usually the __func__ string is passed as the first parameter.
+#include "vector/vector.h"
+#include "utils/util.h"
 ```
+
+2. Compile the `vector.c` and `utils.c` source files to their object files (I am using `gcc` in this example, use whatever compiler you would like,I am using gcc in this example, use whatever compiler you would like)
+```sh
+$ cd $HOME/"Data Structures in C"
+$ mkdir -p bin
+$ gcc -o bin/vector.o -c vector/vector.c -I include
+$ gcc -o bin/utils.o -c utils/utils.c -I include
+```
+
+3. Compile your program with by navigating to your project's directory and add the appropriate directory.
+```sh
+$ cd $HOME/project-dir
+$ mkdir -p bin
+$ gcc -o bin/myproject.o -c src/myproject.c -I $HOME/Data\ Structures\ in\ C/include
+$ gcc -o program bin/myproject.o $HOME/Data\ Structures\ in\ C/bin/*.o
+```
+
+4. Your program will be compiled as `program`
+```sh
+./program
+```
+
