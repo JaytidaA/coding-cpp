@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "err_handle.h"
+#include "utils/err_handle.h"
 #include "vector.h"
 
 /* internal helpers */
@@ -26,7 +26,7 @@ Vector *new_vector(void)
 
 	temp->size = 0;
 	temp->capacity = INITIAL_VEC_CAP;
-	temp->arr = (Item *) malloc(temp.capacity * sizeof(Item));
+	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
 	if (!(temp->arr))
 		ERR_NULL_MALLOC(INITIAL_VEC_CAP, __func__);
 
@@ -46,7 +46,7 @@ Vector *new_vector_cap(size_t n)
 
 	temp->size = 0;
 	temp->capacity = (!n) ? INITIAL_VEC_CAP : n;
-	temp->arr = (Item *) malloc(temp.capacity * sizeof(Item));
+	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
 	if (!(temp->arr))
 		ERR_NULL_MALLOC(n, __func__);
 
@@ -69,7 +69,7 @@ Vector *new_vector_fill(size_t n, Item i)
 
 	temp->size = n;
 	temp->capacity = n;
-	temp->arr = (Item *) malloc(temp.capacity * sizeof(Item));
+	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
 	if (!(temp->arr))
 		ERR_NULL_MALLOC(n, __func__);
 	
@@ -124,7 +124,7 @@ void pop_back(Vector *v)
  ******************************************************************************/
 Item *front(const Vector *v)
 {
-	return empty(v) ? NULL : v->arr[0];
+	return empty(v) ? NULL : &(v->arr[0]);
 }
 
 /******************************************************************************
@@ -132,7 +132,7 @@ Item *front(const Vector *v)
  ******************************************************************************/
 Item *back(const Vector *v)
 {
-	return empty(v) ? NULL : v->arr[v->size - 1];
+	return empty(v) ? NULL : &(v->arr[v->size - 1]);
 }
 
 /******************************************************************************
@@ -157,7 +157,7 @@ size_t capacity(const Vector *v)
  ******************************************************************************/
 Item *at_ptr(const Vector *v, size_t i)
 {
-	return (i >= v->size) ? NULL : v->arr[i];
+	return (i >= v->size) ? NULL : &(v->arr[i]);
 }
 
 /******************************************************************************

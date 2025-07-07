@@ -46,7 +46,7 @@ Item *back(const Vector *v);
 size_t size(const Vector *v);
 size_t capacity(const Vector *v);
 
-Item *at_ptr(const Vector *v, int i);
+Item *at_ptr(const Vector *v, size_t i);
 
 bool empty(const Vector *v);
 void clear(Vector *v);

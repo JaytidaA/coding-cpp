@@ -12,7 +12,7 @@
 
 #define ERR_NULL_MALLOC(size, func)\
 do {                               \
-	fprintf("[ERROR] (%s): Could not allocate %zu elements!\n", func, size);\
+	fprintf(stderr, "[ERROR] (%s): Could not allocate %zu elements!\n", func, size);\
 	exit(EXIT_FAILURE);            \
 } while (0)
 
