@@ -1,4 +1,5 @@
 # Files which should not be visible
+*.out
 
 # Folders which should not be visible
 Modern\ C
