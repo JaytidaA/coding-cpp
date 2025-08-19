@@ -2,7 +2,7 @@
 This file contains the information about the data structures added to the repository and their examples.
 
 # Vectors
-Defined as the `Vector` struct, Vectors provide a dynamically resizeable array similar to `std::vector` in C++. Currently only integer vectors are supported because I am too lazy to create macros for dynamic typing :P.
+Defined as the `Vector` struct, Vectors provide a dynamically resizeable array similar to `std::vector` in C++. Supports generic typing using `void *` (void pointers).
 
 Following are the structs, typedefs, functions and macros defined in vector.h
 ```c
