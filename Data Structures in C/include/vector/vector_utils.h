@@ -11,6 +11,24 @@
 #include "utils.h"
 #include "vector/vector.h"
 
-void print_vector(Vector *v);
+#if IS_PRINTABLE
+#include <stdio.h>
+#endif
+
+#define print_vector(vec, type, fmt) do {              \
+    if (IS_PRINTABLE) {                                \
+        putchar('<');                                  \
+        if (empty(vec)) {                              \
+            puts(" >");                                \
+        } else {                                       \
+            printf(fmt, *(type *)front(vec));          \
+            for (size_t i = 1; i < size(vec); i++) {   \
+                printf(", ");                          \
+                printf(fmt, *(type *)at_ptr(vec, i));  \
+            }                                          \
+            puts(">");                                 \
+        }                                              \
+    }                                                  \
+} while (0)
 
 #endif

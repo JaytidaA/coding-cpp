@@ -8,20 +8,4 @@
 #include "vector/vector.h"
 #include "vector/vector_utils.h"
 
-#if IS_PRINTABLE
-#include <stdio.h>
-#endif
-
-void print_vector(Vector *v)
-{
-#if IS_PRINTABLE
-	putchar('<');
-	if (empty(v)) {
-		puts(" >");
-		return;
-	}
-	for (int i = 0; i < size(v) - 1; i++)
-		printf("%d, ", *at_ptr(v, i));
-	printf("%d>\n", *back(v));
-#endif
-}
+/* Empty file as the function definition has been turned into a macro in vector_utils.h */

@@ -12,36 +12,39 @@ Following are the structs, typedefs, functions and macros defined in vector.h
 #define LINEAR_ALLOC
 // defines allocation function
 
-/* typedefs */
-typedef int Item;
+// define a convenient wrapper for push back (refer ahead) with the type of the element to be added.
+#define push_back(vec, type, elm) do {\
+    type _temp = elm;                 \
+    _push_back_ptr(vec, &_temp);      \
+} while (0)
 
 /* structs */
 typedef struct {
-    Item *arr;
+    void *arr;
+    size_t elm_size;
     size_t size;
     size_t capacity;
 } Vector;
 
 /* prototypes */
-Vector *new_vector(void);                    // new vector
-Vector *new_vector_cap(size_t n);            // new vector with a capacity
-Vector *new_vector_fill(size_t n, Item i);   // new vector with a capacity and initial element
-Vector *reset_vector(Vector *);              // make an allocated vector same as new vector
-void delete_vector(Vector *);                // delete a vector and it's memory
+Vector *new_vector(size_t elm_size);                          // new vector
+Vector *new_vector_cap(size_t elm_size, size_t n);            // new vector with a capacity
+Vector *new_vector_fill(size_t elm_size, size_t n, Item i);   // new vector with a capacity and initial element
+Vector *reset_vector(Vector *);                               // make an allocated vector same as new vector
+void delete_vector(Vector *);                                 // delete a vector and it's memory
 
-void push_back(Vector *v, Item i);           // add element to end
-void pop_back(Vector *v);                    // remove element from end
-Item *front(const Vector *v);                // get the first element
-Item *back(const Vector *v);                 // get the last element
+void _push_back_ptr(Vector *v, void *i);                      // add element to end
+void pop_back(Vector *v);                                     // remove element from end
+void *front(const Vector *v);                                 // get the first element
+void *back(const Vector *v);                                  // get the last element
 
-size_t size(const Vector *v);                // query the size
-size_t capacity(const Vector *v);            // query the capacity
+size_t size(const Vector *v);                                 // query the size
+size_t capacity(const Vector *v);                             // query the capacity
 
-Item *at_ptr(const Vector *v, size_t i);     // element access, similar to std::vector::at
-                                             // provides bounds checking
+void *at_ptr(const Vector *v, size_t i);                      // element access, similar to std::vector::at with bounds checking
 
-bool empty(const Vector *v);                 // check if vector is empty (size == 0)
-void clear(Vector *v);                       // make the vector empty (size = 0)
+bool empty(const Vector *v);                                  // check if vector is empty (size == 0)
+void clear(Vector *v);                                        // make the vector empty (size = 0)
 ```
 
 Conditional programming exists and is controlled via the following macros:
@@ -52,10 +55,15 @@ Conditional programming exists and is controlled via the following macros:
 
 
 ## Utilities
-Currently only one utility is provided by Vector and it is the printing one. Include `include/vector/vector_utils.h` to get access to the `print_vector` function
+Currently only one utility is provided by Vector and it is the printing one. Include `include/vector/vector_utils.h` to get access to the `print_vector` ~~function~~ parameterised macro.
 ```c
-void print_vector(Vector *v);
+#define print_vector(vec, type, fmt) ...
 ```
+The parameters are as follows:
+* `vec`: A pointer to the vector data structure to be printed.
+* `type`: Type of the elements stored in vector pointed to by `vec`.
+* `fmt`: Format string for the vector elements. e.g. if `int`s are stored in the vector then this parameter should be `"%d"`.
+
 Since it requires the use of a hosted implementation of C, if one is not present the function simply does nothing otherwise, it prints the Items of the vector in angular brackets and prints a new line.
 
 ## Errors

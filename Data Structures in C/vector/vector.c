@@ -5,6 +5,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include "err_handle.h"
 #include "vector/vector.h"
@@ -18,7 +19,7 @@ size_t vnew_cap(size_t cap);
  *             INITIAL_VEC_CAP Item(s). Exits the program on failure to       *
  *             allocate enough memory.                                        *
  ******************************************************************************/
-Vector *new_vector(void)
+Vector *new_vector(size_t e)
 {
 	Vector *temp = (Vector *) malloc(sizeof(Vector));
 	if (!temp)
@@ -26,7 +27,8 @@ Vector *new_vector(void)
 
 	temp->size = 0;
 	temp->capacity = INITIAL_VEC_CAP;
-	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
+	temp->elm_size = e;
+	temp->arr = malloc(temp->capacity * e);
 	if (!(temp->arr))
 		err_null_malloc(__func__, INITIAL_VEC_CAP);
 
@@ -38,7 +40,7 @@ Vector *new_vector(void)
  *                 'n' Items. Exits the program on failure to allocate enough *
  *                 memory.                                                    *
  ******************************************************************************/
-Vector *new_vector_cap(size_t n)
+Vector *new_vector_cap(size_t e, size_t n)
 {
 	Vector *temp = (Vector *) malloc(sizeof(Vector));
 	if (!temp)
@@ -46,7 +48,8 @@ Vector *new_vector_cap(size_t n)
 
 	temp->size = 0;
 	temp->capacity = (!n) ? INITIAL_VEC_CAP : n;
-	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
+	temp->elm_size = e;
+	temp->arr = malloc(temp->capacity * e);
 	if (!(temp->arr))
 		err_null_malloc(__func__, n);
 
@@ -58,7 +61,7 @@ Vector *new_vector_cap(size_t n)
  *                  and initialises them with value 'i'. Exits the progtam on *
  *                  failure to allocate enough memory.                        *
  ******************************************************************************/
-Vector *new_vector_fill(size_t n, Item i)
+Vector *new_vector_fill(size_t e, size_t n, void *i)
 {
 	if (!n)
 		return NULL;
@@ -69,25 +72,26 @@ Vector *new_vector_fill(size_t n, Item i)
 
 	temp->size = n;
 	temp->capacity = n;
-	temp->arr = (Item *) malloc(temp->capacity * sizeof(Item));
+	temp->elm_size = e;
+	temp->arr = malloc(n * e);
 	if (!(temp->arr))
 		err_null_malloc(__func__, n);
 	
 	for (int j = 0; j < n; j++)
-		temp->arr[j] = i;
+		memcpy(temp->arr + (j * e), i, e);
 
 	return temp;
 }
 
 /******************************************************************************
  * reset_vector: Resets the vector so that it is indistinguishable from one   *
- *               which is newly declared. Frees the array and sets the size   *
- *               and capacity to zero.                                        *
+ *               which is newly declared. Frees the array and sets the size,  *
+ *               capacity and elm_size to zero.                               *
  ******************************************************************************/
 Vector *reset_vector(Vector *v)
 {
 	free(v->arr);
-	v->size = v->capacity = 0;
+	v->size = v->capacity = v->elm_size = 0;
 	return v;
 }
 
@@ -100,14 +104,15 @@ void delete_vector(Vector *v)
 }
 
 /******************************************************************************
- * push_back: Adds an Item at the location pointed to by size and increments  *
- *            it by one. Reallocates memory if size is equal to the capacity. *
+ * _push_back_ptr: Adds an Item at the location pointed to by size and        *
+ *                 increments it by one. Reallocates memory if size is equal  *
+ *                 to the capacity.                                           *
  ******************************************************************************/
-void push_back(Vector *v, Item i)
+void _push_back_ptr(Vector *v, void *i)
 {
 	if (v->size == v->capacity)
 		vmem_reallocation(v);
-	v->arr[(v->size)++] = i;
+	memcpy(v->arr + (v->elm_size * (v->size)++), i, v->elm_size);
 }
 
 /******************************************************************************
@@ -122,17 +127,17 @@ void pop_back(Vector *v)
 /******************************************************************************
  * front: Returns a pointer to the first Item in the vector, NULL if empty.   *
  ******************************************************************************/
-Item *front(const Vector *v)
+void *front(const Vector *v)
 {
-	return empty(v) ? NULL : &(v->arr[0]);
+	return empty(v) ? NULL : v->arr;
 }
 
 /******************************************************************************
  * back: Returns a pointer to the last Item of the vector, NULL if empty.     *
  ******************************************************************************/
-Item *back(const Vector *v)
+void *back(const Vector *v)
 {
-	return empty(v) ? NULL : &(v->arr[v->size - 1]);
+	return empty(v) ? NULL : (v->arr + ((v->size - 1) * v->elm_size));
 }
 
 /******************************************************************************
@@ -155,9 +160,9 @@ size_t capacity(const Vector *v)
 /******************************************************************************
  * at_ptr: Retunrs a pointer to the ith Item in the vector, NULL if invalid.  *
  ******************************************************************************/
-Item *at_ptr(const Vector *v, size_t i)
+void *at_ptr(const Vector *v, size_t i)
 {
-	return (i >= v->size) ? NULL : &(v->arr[i]);
+	return (i >= v->size) ? NULL : (v->arr + (i * v->elm_size));
 }
 
 /******************************************************************************
@@ -185,12 +190,11 @@ void clear(Vector *v)
 void vmem_reallocation(Vector *v)
 {
 	size_t new_cap = vnew_cap(v->capacity);
-	Item *temp = (Item *) malloc(new_cap * sizeof(Item));
+	void *temp = malloc(new_cap * v->elm_size);
 	if (!temp)
 		err_null_malloc(__func__, new_cap);
 
-	for (int i = 0; i < v->size; i++)
-		temp[i] = v->arr[i];
+	memcpy(temp, v->arr, v->size * v->elm_size);
 	free(v->arr);
 	v->arr = temp;
 }

@@ -10,39 +10,40 @@
 
 void maximum_sum_subarray(Vector *v)
 {
-	int sum = *front(v);
-	int maxsum = *front(v);
+	int sum = *(int *) front(v);
+	int maxsum = sum;
 	int next;
-	int start = 0, length = 1;
+	int start = 0, end = 0;
 	for (int i = 1; i < size(v); i++) {
-		next = *at_ptr(v, i);
+		next = *(int *) at_ptr(v, i);
 		if (next > sum + next) {
 			start = i;
-			length = 1;
+			end = i;
 			sum = next;
 		} else {
-			length += 1;
 			sum = sum + next;
 		}
 
-		if (maxsum < sum)
+		if (maxsum < sum) {
+			end = i;
 			maxsum = sum;
+		}
 	}
 	printf("The subarray with the maximum sum is: ");
-	Vector temp = (Vector) { .arr = (v->arr + start), .size = length };
-	print_vector(&temp);
+	Vector temp = (Vector) { .arr = (v->arr + start), .elm_size = sizeof(int), .size = end - start + 1 };
+	print_vector(&temp, int, "%d");
 	printf("The maximum sum is: %d\n", maxsum);
 }
 
 int main(void)
 {
 	int num = 0;
-	Vector *vec = new_vector();
+	Vector *vec = new_vector(sizeof(int));
 
 	printf("Enter a set of numbers (0 to stop): ");
 	do {
 		scanf("%d", &num);
-		push_back(vec, num);
+		push_back(vec, int, num);
 	} while (num != 0); 
 
 	// Pop back the final zero which was pushed
