@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdbool.h>
 
 void print_arr(int n, int a[]) {
 	putchar('[');
